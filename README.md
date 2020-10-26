@@ -1,6 +1,6 @@
 # Server - boilerplate
 
-- **_Use this app as a starter code for your project._**
+- **_Use this app as a starter code for your full-stack project._**
 - Follow these steps to clone project to your local machine:
 
 ```shell
