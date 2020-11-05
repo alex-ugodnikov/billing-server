@@ -1,56 +1,33 @@
-const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
-const User = require("../models/User.model");
-const bcrypt = require("bcryptjs");
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const bcryptjs = require('bcryptjs');
 
-// passport.use(new LocalStrategy({
-//     usernameField: 'username',
-//     passwordField: 'password'
-//   },
-//   (username, password, done) => {
-//     User.findOne({ username })
-//     .then(foundUser => {
-//       if (!foundUser) {
-//         done(null, false, { message: 'Incorrect username' });
-//         return;
-//       }
-
-//       if (!bcrypt.compareSync(password, foundUser.password)) {
-//         done(null, false, { message: 'Incorrect password' });
-//         return;
-//       }
-
-//       done(null, foundUser);
-//     })
-//     .catch(err => done(err));
-//   }
-// ));
+const User = require('../models/User.model');
 
 passport.use(
-    "local",
-    new LocalStrategy(
-        {
-            usernameField: "email",
-        },
-        (email, password, next) => {
-            console.log({ email, password });
-            User.findOne({ email })
-                .then((userFromDb) => {
-                    if (!userFromDb) {
-                        return next(null, false, {
-                            message: "Incorrect Email",
-                        });
-                    }
+  'local',
+  new LocalStrategy(
+    {
+      usernameField: 'email'
+      // passReqToCallback: true // if we need to use request in the callback we can pass it like this
+      // in that case the callback would look like: (req, email, password, next)
+    },
+    (email, password, next) => {
+      User.findOne({ email })
+        .then(userFromDB => {
+          if (!userFromDB) {
+            next(null, false, { message: 'Incorrect email! 🛬' });
+            return;
+          }
 
-                    if (!bcrypt.compareSync(password, userFromDb.password)) {
-                        return next(null, false, {
-                            message: "Incorrect Password",
-                        });
-                    }
+          if (!bcryptjs.compareSync(password, userFromDB.passwordHash)) {
+            next(null, false, { message: 'Incorrect password! ❌' });
+            return;
+          }
 
-                    return next(null, userFromDb);
-                })
-                .catch((err) => next(err));
-        }
-    )
+          next(null, userFromDB);
+        })
+        .catch(err => next(err));
+    }
+  )
 );
