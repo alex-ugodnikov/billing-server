@@ -1,10 +1,16 @@
 require('dotenv').config();
 
-const cookieParser = require('cookie-parser');
-const express = require('express');
-const favicon = require('serve-favicon');
-const logger = require('morgan');
-const path = require('path');
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const express = require("express");
+const favicon = require("serve-favicon");
+const hbs = require("hbs");
+const mongoose = require("mongoose");
+const logger = require("morgan");
+const path = require("path");
+//const cors = require("cors");
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 const createError = require('http-errors');
 
 // require all the packages you install
@@ -24,21 +30,27 @@ app.use(cookieParser());
 require('./configs/db.config');
 
 // require CORS (Cross-Origin Resource Sharing)
-// ... here
 
-// require session
-// ... here
+// app.use(
+//   cors({
+//       credentials: true,
+//       origin: ["http://localhost:3000", "blah.reactappdomain.com"],
+//   })
+// );
 
-// require passport
-// ... here
+// Enable authentication using session + passport
+require('./configs/session.config')(app);
+require("./passport")(app);
 
 // routes middleware
-app.use('/', require('./routes/index.routes'));
+app.use("/", require("./routes/index"));
+app.use("/api/auth", require("./routes/auth"));
+//app.use("/api/invoice", require("./routes/invoice"));
 
 // Catch missing routes and forward to error handler
-app.use((req, res, next) => {
-  next(createError(404));
-});
+// app.use((req, res, next) => {
+//   next(createError(404));
+// });
 
 // Catch all error handler
 app.use((error, req, res, next) => {
