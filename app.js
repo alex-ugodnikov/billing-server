@@ -13,9 +13,6 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const createError = require('http-errors');
 
-// require all the packages you install
-// ... here
-
 const app = express();
 
 // Middleware Setup
@@ -45,6 +42,7 @@ require("./passport")(app);
 // routes middleware
 app.use("/", require("./routes/index"));
 app.use("/", require("./routes/auth"));
+app.use("/", require("./routes/clients"));
 //app.use("/api/invoice", require("./routes/invoice"));
 
 // Catch missing routes and forward to error handler

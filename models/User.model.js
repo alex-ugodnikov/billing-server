@@ -5,7 +5,7 @@ const userSchema = new Schema(
 		username: {
 			type: String,
 			trim: true,
-			required: [true, 'Username is required.'],
+			required: false,
 			unique: true
 		},
 		email: {
@@ -19,7 +19,14 @@ const userSchema = new Schema(
 		passwordHash: {
 			type: String,
 			required: [true, 'Password is required.']
-		}
+		},
+		isAdmin: {
+			type: Boolean,
+			default: false
+		},
+		firstName: String,
+		lastName: String,
+		company: String
 	},
 	{
 		timestamps: true
