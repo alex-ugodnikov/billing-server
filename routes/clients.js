@@ -34,6 +34,7 @@ router.post('/api/clients', (req, res, next) => {
 		.then(hashedPassword => {
 			return User.create({
 				email,
+				username: email,
 				firstName,
 				lastName,
 				company,
@@ -49,6 +50,7 @@ router.post('/api/clients', (req, res, next) => {
 			if (err instanceof mongoose.Error.ValidationError) {
 				res.status(500).json({ message: err.message });
 			} else if (err.code === 11000) {
+				//console.log(err);
 				res.status(500).json({
 					message: 'Username and email need to be unique. Either username or email is already used.'
 				});
@@ -61,6 +63,12 @@ router.post('/api/clients', (req, res, next) => {
 router.get('/api/clients', (req, res) => {
 	User.find({isAdmin:false})
 		.then(clientsFromDB => res.status(200).json({ clients: clientsFromDB }))
+		.catch(err => next(err));
+});
+
+router.post('/api/clients/:id/update', (req, res) => {
+	User.findByIdAndUpdate(req.params.id, req.body, { new: true })
+		.then(updatedClient => res.status(200).json({ client: updatedClient }))
 		.catch(err => next(err));
 });
 
