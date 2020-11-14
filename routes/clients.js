@@ -72,5 +72,11 @@ router.post('/api/clients/:id/update', (req, res) => {
 		.catch(err => next(err));
 });
 
+router.post('/api/clients/:id/delete', (req, res) => {
+	User.findByIdAndRemove(req.params.id)
+	  .then(() => res.json({ message: 'Successfully removed!' }))
+	  .catch(err => next(err));
+  });
+
 
 module.exports = router;
