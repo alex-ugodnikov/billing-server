@@ -1,38 +1,34 @@
-// ROUTES FILE NEEDS TO BE REQUIRED IN THE APP.JS IN ORDER NOT TO GIVE 404
-// APP NEEDS TO KNOW YOU CREATED A NEW ROUTE FILE,
-// THAT'S THE ONLY WAY FOR IT TO KNOW WHICH ROUTES YOU WANT TO HIT
-
 const express = require('express');
 const router = express.Router();
 
-// ********* require Author and Book models in order to use them *********
-const Author = require('../models/User.model');
+// ********* require Author and Invoice models in order to use them *********
+const Client = require('../models/User.model');
 const Invoice = require('../models/Invoice.model');
 
 // ****************************************************************************************
-// POST - create a book
+// POST - create an invoice
 // ****************************************************************************************
 
 // <form action="/books" method="POST">
 router.post('/api/invoices', (req, res, next) => {
 	console.log(req.body);
 	Invoice.create(req.body)
-		.then(bookDoc => res.status(200).json({ book: bookDoc }))
+		.then(invoice => res.status(200).json({ invoice }))
 		.catch(err => next(err));
 });
 
 // ****************************************************************************************
-// GET route to get all the books
+// GET route to get all the invoices
 // ****************************************************************************************
 
 router.get('/api/invoices', (req, res) => {
 	Invoice.find()
-		.then(booksFromDB => res.status(200).json({ books: booksFromDB }))
+		.then(invoicesFromDb => res.status(200).json({ invoices: invoicesFromDb }))
 		.catch(err => next(err));
 });
 
 // ****************************************************************************************
-// POST route to delete the book
+// POST route to delete the invoice
 // ****************************************************************************************
 
 // <form action="/books/{{this._id}}/delete" method="post">
@@ -49,18 +45,18 @@ router.post('/api/invoices/:invoiceId/delete', (req, res) => {
 // <form action="/books/{{foundBook._id}}/update" method="POST">
 router.post('/api/invoices/:id/update', (req, res) => {
 	Invoice.findByIdAndUpdate(req.params.id, req.body, { new: true })
-		.then(updatedInvoice => res.status(200).json({ book: updatedInvoice }))
+		.then(updatedInvoice => res.status(200).json({ invoice: updatedInvoice }))
 		.catch(err => next(err));
 });
 
 // ****************************************************************************************
-// GET route for getting the book details
+// GET route for getting the invoice details
 // ****************************************************************************************
 
 router.get('/api/invoices/:someInvoiceId', (req, res) => {
 	Invoice.findById(req.params.someInvoiceId)
-		.populate('author')
-		.then(foundInvoice => res.status(200).json({ book: foundInvoice }))
+		.populate('client')
+		.then(foundInvoice => res.status(200).json({ invoice: foundInvoice }))
 		.catch(err => next(err));
 });
 

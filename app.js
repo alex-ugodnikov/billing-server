@@ -43,7 +43,7 @@ require("./passport")(app);
 app.use("/", require("./routes/index"));
 app.use("/", require("./routes/auth"));
 app.use("/", require("./routes/clients"));
-//app.use("/api/invoice", require("./routes/invoice"));
+app.use("/", require("./routes/invoice"));
 
 // Catch missing routes and forward to error handler
 // app.use((req, res, next) => {
