@@ -31,7 +31,7 @@ require('./configs/db.config');
 app.use(
   cors({
       credentials: true,
-      origin: ["http://localhost:3000", "blah.reactappdomain.com"],
+      origin: ["http://localhost:3000", "blah.reactappdomain.com", "https://billing-client.netlify.app"],
   })
 );
 
