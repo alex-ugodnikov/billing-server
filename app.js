@@ -56,4 +56,9 @@ app.use((error, req, res, next) => {
   res.json({ type: 'error', error: { message: error.message } });
 });
 
+app.use((req, res) => {
+  // If no routes match, send them the React HTML.
+  res.sendFile(__dirname + "/client/build/index.html");
+});
+
 module.exports = app;
