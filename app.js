@@ -30,8 +30,8 @@ require('./configs/db.config');
 
 app.use(
   cors({
-      credentials: true,
-      origin: ["http://localhost:3000", "blah.reactappdomain.com", "https://billing-client.netlify.app"],
+    credentials: true,
+    origin: ["http://localhost:3000", "blah.reactappdomain.com", "https://billing-client.netlify.app"],
   })
 );
 
@@ -58,7 +58,7 @@ app.use((error, req, res, next) => {
 
 app.use((req, res) => {
   // If no routes match, send them the React HTML.
-  res.sendFile(__dirname + "/client/build/index.html");
+  res.sendFile(__dirname + "/client/index.html");
 });
 
 module.exports = app;
