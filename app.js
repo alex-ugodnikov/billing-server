@@ -40,7 +40,7 @@ require('./configs/session.config')(app);
 require("./passport")(app);
 
 // routes middleware
-app.use("/", require("./routes/index"));
+// app.use("/", require("./routes/index"));
 app.use("/", require("./routes/auth"));
 app.use("/", require("./routes/clients"));
 app.use("/", require("./routes/invoice"));
